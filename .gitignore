@@ -1,0 +1,7 @@
+/.vs
+/Saned
+/intermediate
+/Build
+/Plugins
+*.sln
+*_BuiltData.uasset
