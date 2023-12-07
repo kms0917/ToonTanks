@@ -1231,3 +1231,4 @@ LogConfig: Set CVar [[r.Shadow.DetectVertexShaderLayerAtRuntime:1]]
 [2023.12.07-00.58.52:978][100]LogWorldSubsystemInput: UEnhancedInputDeveloperSettings::bEnableWorldSubsystem is false, the world subsystem will not be created!
 [2023.12.07-00.58.55:255][331]LogViewport: Scene viewport resized to 1284x917, mode Windowed.
 [2023.12.07-00.58.58:012][648]LogViewport: Scene viewport resized to 1579x877, mode Windowed.
+[2023.12.07-01.00.24:358][303]LogDerivedDataCache: C:/Users/user/AppData/Local/UnrealEngine/Common/DerivedDataCache: Maintenance finished in +00:00:13.477 and deleted 0 files with total size 0 MiB and 0 empty folders. Scanned 7518 files in 9479 folders with total size 4157 MiB.
