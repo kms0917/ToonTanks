@@ -20,7 +20,7 @@ void UHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	//Health = MaxHealth;
+	Health = MaxHealth;
 	
 	GetOwner()->OnTakeAnyDamage.AddDynamic(this, &UHealthComponent::DamageTaken);
 

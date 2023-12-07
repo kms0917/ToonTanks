@@ -5,6 +5,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Camera/CameraComponent.h"
+#include "BasePawn.h"
 
 ATank::ATank()
 {
