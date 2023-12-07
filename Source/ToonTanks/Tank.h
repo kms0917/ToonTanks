@@ -41,5 +41,6 @@ private:
 
 	void Move(float Value);
 	void Turn(float Value);
+	void Jump();
 	APlayerController* TankPlayerController;
 };
