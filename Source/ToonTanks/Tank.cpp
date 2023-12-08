@@ -24,6 +24,7 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis(TEXT("Turn"), this, &ATank::Turn);
 	PlayerInputComponent->BindAction(TEXT("Fire"), IE_Pressed, this, &ATank::Fire);
 	PlayerInputComponent->BindAction(TEXT("Jump"), IE_Pressed, this, &ATank::Jump);
+	PlayerInputComponent->BindAction(TEXT("Dash"), IE_Pressed, this, &ATank::Dash);
 }
 
 void ATank::BeginPlay()
@@ -31,6 +32,9 @@ void ATank::BeginPlay()
 	Super::BeginPlay();
 
 	TankPlayerController = Cast<APlayerController>(GetController());
+
+	ManageDashCount();
+	ManageJumpCount();
 }
 
 void ATank::Tick(float DeltaTime)
@@ -51,6 +55,9 @@ void ATank::HandleDestruction()
 	Super::HandleDestruction();
 	SetActorHiddenInGame(true);
 	SetActorTickEnabled(false);
+	bAlive = false;
+
+	UGameplayStatics::OpenLevel(GetWorld(), FName(*GetWorld()->GetName()), true);
 }
 
 void ATank::Move(float Value)
@@ -69,10 +76,70 @@ void ATank::Turn(float Value)
 
 void ATank::Jump()
 {
-	FVector JumpImpulse = FVector(0, 0, 600);
-	UPrimitiveComponent* PrimitiveComponent = Cast<UPrimitiveComponent>(RootComponent);
-	if (PrimitiveComponent)
+	if (JumpCount >= 1)
 	{
-		PrimitiveComponent->AddImpulse(JumpImpulse, NAME_None, true);
+		FVector JumpImpulse = FVector(0, 0, 700);
+		UPrimitiveComponent* PrimitiveComponent = Cast<UPrimitiveComponent>(RootComponent);
+		if (PrimitiveComponent)
+		{
+			PrimitiveComponent->AddImpulse(JumpImpulse, NAME_None, true);
+		}
+		JumpCount--;
 	}
+}
+
+void ATank::Dash()
+{
+	if (DashCount >= 1)
+	{
+		FVector DashImpulse = FVector(600, 0, 0);
+		FRotator ActorRotation = GetActorRotation();
+
+		// 로컬 공간에서의 방향 계산
+		FVector WorldDashDirection = ActorRotation.RotateVector(DashImpulse);
+
+		// 충격을 가하는 코드
+		UPrimitiveComponent* PrimitiveComponent = Cast<UPrimitiveComponent>(RootComponent);
+		if (PrimitiveComponent)
+		{
+			PrimitiveComponent->AddImpulse(WorldDashDirection, NAME_None, true);
+		}
+		DashCount--;
+	}
+}
+
+void ATank::AddDashCount()
+{
+	if (DashCount < 3)
+	{
+		DashCount++;
+		return;
+	}
+	else
+	{
+		return;
+	}
+}
+
+void ATank::AddJumpCount()
+{
+	if (JumpCount < 2)
+	{
+		JumpCount++;
+		return;
+	}
+	else
+	{
+		return;
+	}
+}
+
+void ATank::ManageDashCount()
+{
+	GetWorldTimerManager().SetTimer(DashCountTimerHandler , this, &ATank::AddDashCount, DashCountRate, true);
+}
+
+void ATank::ManageJumpCount()
+{
+	GetWorldTimerManager().SetTimer(JumpCountTimerHandler, this, &ATank::AddJumpCount, JumpCountRate, true);
 }

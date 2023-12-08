@@ -24,9 +24,26 @@ public:
 
 	APlayerController* GetTankPlayerController() const { return TankPlayerController; }
 
+	bool bAlive = true;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Combat")
+	int32 DashCount = 3;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Combat")
+	int32 JumpCount = 2;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Combat")
+	int32 ShotCount = 30;
+
+	UFUNCTION(BlueprintCallable)
+	void ManageDashCount();
+
+	UFUNCTION(BlueprintCallable)
+	void ManageJumpCount();
 
 private:
 	UPROPERTY(VisibleAnyWhere, Category = "Components")
@@ -38,9 +55,20 @@ private:
 	UPROPERTY(EditAnyWhere, Category = "Movement")
 	float TurnRate = 90.f;
 
+	UFUNCTION()
+	void AddDashCount();
+
+	UFUNCTION()
+	void AddJumpCount();
+
+	FTimerHandle DashCountTimerHandler;
+	float DashCountRate = 4.5f;
+	FTimerHandle JumpCountTimerHandler;
+	float JumpCountRate = 3.f;
 
 	void Move(float Value);
 	void Turn(float Value);
 	void Jump();
+	void Dash();
 	APlayerController* TankPlayerController;
 };
