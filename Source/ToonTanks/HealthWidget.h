@@ -17,5 +17,5 @@ class TOONTANKS_API UHealthWidget : public UUserWidget
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
-	float CurrentHealth = 0;
+	float CurrentHealth = 0;		//위젯에 현재 Tank의 체력을 출력하기 위한 변수
 };

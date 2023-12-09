@@ -20,11 +20,11 @@ void UHealthComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	CurrentHealth = MaxHealth;
+	CurrentHealth = MaxHealth;	//체력 설정
 	
-	GetOwner()->OnTakeAnyDamage.AddDynamic(this, &UHealthComponent::DamageTaken);
+	GetOwner()->OnTakeAnyDamage.AddDynamic(this, &UHealthComponent::DamageTaken);	//Health Component를 갖고있는 폰이 데미지를 받으면 DamageTaken이 실행
 
-	ToonTanksGameMode = Cast<AToonTanksGameMode> (UGameplayStatics::GetGameMode(this));
+	ToonTanksGameMode = Cast<AToonTanksGameMode> (UGameplayStatics::GetGameMode(this));	//현재 게임모드 받아옴
 }
 
 
@@ -34,7 +34,7 @@ void UHealthComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
 
-void UHealthComponent::DamageTaken(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* Instigator, AActor* DamageCauser)
+void UHealthComponent::DamageTaken(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* Instigator, AActor* DamageCauser)	//데미지 처리하는 함수
 {
 	if (Damage <= 0.f) return;
 

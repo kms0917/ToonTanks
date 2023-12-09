@@ -17,7 +17,7 @@ public:
 	UHealthComponent();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float CurrentHealth = 0.f;
+	float CurrentHealth = 0.f;	
 
 protected:
 	// Called when the game starts
@@ -26,7 +26,7 @@ protected:
 private:
 
 	UPROPERTY(EditAnyWhere)
-	float MaxHealth = 100.f;
+	float MaxHealth = 100.f;	
 
 	UFUNCTION()
 	void DamageTaken(AActor* DamagedActor, float Damage, const UDamageType* DamageType, class AController* Instigator, AActor* DamageCauser);

@@ -11,8 +11,7 @@
 // Sets default values
 ABasePawn::ABasePawn()
 {
- 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = true;	//틱을 가능하게 함
 	
 	CapsuleComp = CreateDefaultSubobject <UCapsuleComponent>(TEXT("Capsule Ciollider"));	//캡슐 컴포넌트 생성
 	RootComponent = CapsuleComp;	//캡슐 컴포넌트를 루트 컴포넌트로 할당
@@ -23,7 +22,7 @@ ABasePawn::ABasePawn()
 	TurretMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Turret Mesh"));			//스태틱매시 생성
 	TurretMesh->SetupAttachment(BaseMesh);		//basemesh에 붙힘
 
-	ProjectileSpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Spawn Point"));
+	ProjectileSpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Spawn Point"));	//발사체가 생성될 위치 생성 후 설정
 	ProjectileSpawnPoint->SetupAttachment(TurretMesh);
 }
 
@@ -31,26 +30,26 @@ void ABasePawn::HandleDestruction()
 {
 	if (DeathParticles)
 	{
-		UGameplayStatics::SpawnEmitterAtLocation(this, DeathParticles, GetActorLocation(), GetActorRotation());
+		UGameplayStatics::SpawnEmitterAtLocation(this, DeathParticles, GetActorLocation(), GetActorRotation());	//죽은 위치에 DeathParticles 출력
 	}
 	if (DeathSound)
 	{
-		UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation());
+		UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation());	//죽은 위치에 DeathSound 출력
 	}
 	if (DeathCameraShake)
 	{
-		GetWorld()->GetFirstPlayerController()->ClientStartCameraShake(DeathCameraShake);
+		GetWorld()->GetFirstPlayerController()->ClientStartCameraShake(DeathCameraShake);	//죽으면 카메라 쉐이크 출력
 	}
 }
 
-void ABasePawn::RotateTurret(FVector LookAtTarget)
+void ABasePawn::RotateTurret(FVector LookAtTarget)		//입력으로 들어온 위치로 TurretMesh를 돌리는 함수
 {
 	FVector ToTarget = LookAtTarget - TurretMesh->GetComponentLocation();
 	FRotator LookAtRotation = ToTarget.Rotation();
 	TurretMesh->SetWorldRotation(FMath::RInterpTo(TurretMesh->GetComponentRotation(), LookAtRotation, UGameplayStatics::GetWorldDeltaSeconds(this), 8.f));
 }
 
-void ABasePawn::Fire()
+void ABasePawn::Fire()		//발사체를 스폰하는 함수
 {
 	FVector Location = ProjectileSpawnPoint->GetComponentLocation();
 	FRotator Rotation = ProjectileSpawnPoint->GetComponentRotation();

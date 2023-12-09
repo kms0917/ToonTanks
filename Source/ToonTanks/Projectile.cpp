@@ -18,11 +18,11 @@ AProjectile::AProjectile()
 	RootComponent = ProjectileMesh;
 
 	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Projectile MoveMent Component"));
-	ProjectileMovementComponent->MaxSpeed = 2700.f;
+	ProjectileMovementComponent->MaxSpeed = 2700.f;		//발사체의 최대 속도와 초기 속도
 	ProjectileMovementComponent->InitialSpeed = 2700.f;
 
 	TrailParticles = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Smoke Trail"));
-	TrailParticles->SetupAttachment(RootComponent);
+	TrailParticles->SetupAttachment(RootComponent);		//발사체 궤적 이펙트 설정
 }
 
 // Called when the game starts or when spawned
