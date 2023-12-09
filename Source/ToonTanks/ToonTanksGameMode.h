@@ -22,10 +22,10 @@ protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintImplementableEvent)
-	void StartGame();
+	void StartGame();	//게임시작에 관한 함수(블루프린트에서 구현함)
 
 	UFUNCTION(BlueprintImplementableEvent)
-	void GameOver(bool bWonGame);
+	void GameOver(bool bWonGame);	//게임 종료에 관한 함수(블루프린트에서 구현함)
 
 private:
 

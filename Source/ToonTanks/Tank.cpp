@@ -7,7 +7,7 @@
 #include "Camera/CameraComponent.h"
 #include "BasePawn.h"
 
-ATank::ATank()
+ATank::ATank()	//카메라 부착
 {
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("Spring Arm"));
 	SpringArm->SetupAttachment(RootComponent);
@@ -16,7 +16,7 @@ ATank::ATank()
 	Camera->SetupAttachment(SpringArm);
 }
 
-void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)	//키 바인딩
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
@@ -27,7 +27,7 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAction(TEXT("Dash"), IE_Pressed, this, &ATank::Dash);
 }
 
-void ATank::BeginPlay()
+void ATank::BeginPlay()		//Dash와 Jump 횟수를 관리할 함수들 실행
 {
 	Super::BeginPlay();
 
@@ -37,7 +37,7 @@ void ATank::BeginPlay()
 	ManageJumpCount();
 }
 
-void ATank::Tick(float DeltaTime)
+void ATank::Tick(float DeltaTime)	//매 틱마다 커서 위치로 TurretMesh를 돌림
 {
 	Super::Tick(DeltaTime);
 
@@ -50,31 +50,29 @@ void ATank::Tick(float DeltaTime)
 	}
 }
 
-void ATank::HandleDestruction()
+void ATank::HandleDestruction()		//Tank가 파괴될때 게임에서 Tank가 안보이게 한 후 입력을 받지 않게함
 {
 	Super::HandleDestruction();
 	SetActorHiddenInGame(true);
 	SetActorTickEnabled(false);
 	bAlive = false;
-
-	UGameplayStatics::OpenLevel(GetWorld(), FName(*GetWorld()->GetName()), true);
 }
 
-void ATank::Move(float Value)
+void ATank::Move(float Value)	//앞뒤 움직임 구현
 {
 	FVector DeltaLocation = FVector::ZeroVector;
 	DeltaLocation.X = Value * Speed * UGameplayStatics::GetWorldDeltaSeconds(this);
 	AddActorLocalOffset(DeltaLocation, true);	
 }
 
-void ATank::Turn(float Value)
+void ATank::Turn(float Value)	//좌위 회전 구현
 {
 	FRotator DeltaRotation = FRotator::ZeroRotator;
 	DeltaRotation.Yaw = Value * TurnRate * UGameplayStatics::GetWorldDeltaSeconds(this);
 	AddActorLocalRotation(DeltaRotation);
 }
 
-void ATank::Jump()
+void ATank::Jump()	//점프 구현
 {
 	if (JumpCount >= 1)
 	{
@@ -88,7 +86,7 @@ void ATank::Jump()
 	}
 }
 
-void ATank::Dash()
+void ATank::Dash()	//대쉬 구현
 {
 	if (DashCount >= 1)
 	{
@@ -108,7 +106,7 @@ void ATank::Dash()
 	}
 }
 
-void ATank::AddDashCount()
+void ATank::AddDashCount()	//Dash 횟수 추가하는 함수
 {
 	if (DashCount < 3)
 	{
@@ -121,7 +119,7 @@ void ATank::AddDashCount()
 	}
 }
 
-void ATank::AddJumpCount()
+void ATank::AddJumpCount()	//Jump횟수 추가하는 함수
 {
 	if (JumpCount < 2)
 	{
@@ -134,12 +132,12 @@ void ATank::AddJumpCount()
 	}
 }
 
-void ATank::ManageDashCount()
+void ATank::ManageDashCount()	//Dash 횟수를 DashCountRate의 값에 따라 주기적으로 회복시킴
 {
 	GetWorldTimerManager().SetTimer(DashCountTimerHandler , this, &ATank::AddDashCount, DashCountRate, true);
 }
 
-void ATank::ManageJumpCount()
+void ATank::ManageJumpCount()	//Jump 횟수를 JumpCountRate의 값에 따라 주기적으로 회복시킴
 {
 	GetWorldTimerManager().SetTimer(JumpCountTimerHandler, this, &ATank::AddJumpCount, JumpCountRate, true);
 }

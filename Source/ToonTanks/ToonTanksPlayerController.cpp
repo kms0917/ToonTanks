@@ -4,7 +4,7 @@
 #include "ToonTanksPlayerController.h"
 #include "GameFramework/Pawn.h"
 
-void AToonTanksPlayerController::SetPlayerEnabledState(bool bPlayerEnabled)
+void AToonTanksPlayerController::SetPlayerEnabledState(bool bPlayerEnabled)		//입력 활성화, 비활성화 여부를 결정
 {
 	if (bPlayerEnabled)
 	{

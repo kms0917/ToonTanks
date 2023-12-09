@@ -5,7 +5,7 @@
 #include "Tank.h"
 #include "Kismet/GameplayStatics.h"
 
-void ATower::Tick(float DeltaTime)
+void ATower::Tick(float DeltaTime)		//범위에 들어오면 항상 탱크를 바라봄
 {
 	Super::Tick(DeltaTime);
 
@@ -16,14 +16,14 @@ void ATower::Tick(float DeltaTime)
 
 }
 
-void ATower::HandleDestruction()
+void ATower::HandleDestruction()	//타워가 죽었을시 레벨에서 지움
 {
 
 	Super::HandleDestruction();
 	Destroy();
 }
 
-void ATower::BeginPlay()
+void ATower::BeginPlay()	//레벨의 탱크를 받아오고 FireRate에 따라 Fire함수를 계속 실행함
 {
 	Super::BeginPlay();
 
@@ -32,7 +32,7 @@ void ATower::BeginPlay()
 	GetWorldTimerManager().SetTimer(FireRateTimerHandle, this, &ATower::CheckFireCondition, FireRate, true);
 }
 
-void ATower::CheckFireCondition()
+void ATower::CheckFireCondition()		//범위에 탱크가 들어왔으면 발사
 {
 	if (Tank == nullptr)
 	{
@@ -44,7 +44,7 @@ void ATower::CheckFireCondition()
 	}
 }
 
-bool ATower::InFireRange()
+bool ATower::InFireRange()		//범위에 탱크가 들어왔는지 확인
 {
 	if (Tank)
 	{

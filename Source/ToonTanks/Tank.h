@@ -36,9 +36,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Combat")
 	int32 JumpCount = 2;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Combat")
-	int32 ShotCount = 30;
-
 	UFUNCTION(BlueprintCallable)
 	void ManageDashCount();
 
@@ -51,9 +48,9 @@ private:
 	UPROPERTY(VisibleAnyWhere, Category = "Components")
 	class UCameraComponent* Camera;
 	UPROPERTY(EditAnyWhere, Category = "Movement")
-	float Speed = 700.f;
+	float Speed = 700.f;	//이동속도
 	UPROPERTY(EditAnyWhere, Category = "Movement")
-	float TurnRate = 90.f;
+	float TurnRate = 90.f;	//회전 속도
 
 	UFUNCTION()
 	void AddDashCount();
@@ -62,10 +59,11 @@ private:
 	void AddJumpCount();
 
 	FTimerHandle DashCountTimerHandler;
-	float DashCountRate = 4.5f;
+	float DashCountRate = 4.5f;		//DashCount를 4.5초에 하나씩 회복
 	FTimerHandle JumpCountTimerHandler;
-	float JumpCountRate = 3.f;
+	float JumpCountRate = 3.f;		//JumpCount를 3초에 하나씩 회복
 
+	//이동에 관련한 함수들
 	void Move(float Value);
 	void Turn(float Value);
 	void Jump();

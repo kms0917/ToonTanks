@@ -30,11 +30,11 @@ void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	ProjectileMesh->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
+	ProjectileMesh->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);	//발사체가 컴포넌트에 맞을시 OnHit 함수 실행
 
 	if (LaunchSound)
 	{
-		UGameplayStatics::PlaySoundAtLocation(this, LaunchSound, GetActorLocation(), GetActorRotation());
+		UGameplayStatics::PlaySoundAtLocation(this, LaunchSound, GetActorLocation(), GetActorRotation());	//발사 소리 출력
 	}
 }
 
@@ -47,19 +47,19 @@ void AProjectile::Tick(float DeltaTime)
 
 void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpurse, const FHitResult& Hit)
 {
-	auto MyOwner = GetOwner();
+	auto MyOwner = GetOwner();	//발사체를 소유하고 있는 폰을 받아옴
 	if (MyOwner == nullptr) 
 	{
 		Destroy();
 		return;
 	}
 
-	AController* MyOwnerInstigator = MyOwner->GetInstigatorController();
+	AController* MyOwnerInstigator = MyOwner->GetInstigatorController();	//데미지를 입힌 폰의 컨트롤러 가져옴
 	UClass* DamageTypeClass = UDamageType::StaticClass();
 
 	if (OtherActor && OtherActor != this && OtherActor != MyOwner)
 	{
-		UGameplayStatics::ApplyDamage(OtherActor, Damage, MyOwnerInstigator, this, DamageTypeClass);
+		UGameplayStatics::ApplyDamage(OtherActor, Damage, MyOwnerInstigator, this, DamageTypeClass);	//데미지 적용 후 이펙트, 사운드 출력
 		if (HitParticles)
 		{
 			UGameplayStatics::SpawnEmitterAtLocation(this, HitParticles, GetActorLocation(), GetActorRotation());

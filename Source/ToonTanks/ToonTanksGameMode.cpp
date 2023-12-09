@@ -7,7 +7,7 @@
 #include "Tower.h"
 #include "ToonTanksPlayerController.h"
 
-void AToonTanksGameMode::ActorDied(AActor* DeadActor)
+void AToonTanksGameMode::ActorDied(AActor* DeadActor)	//폰이 죽었을때 해당 폰을 레벨에서 지우는 함수
 {
 	if (DeadActor == Tank)
 	{
@@ -36,7 +36,7 @@ void AToonTanksGameMode::BeginPlay()
 	HandleGameStart();
 }
 
-void AToonTanksGameMode::HandleGameStart()
+void AToonTanksGameMode::HandleGameStart()		//게임 종료 조건을 위해 타워의 수를 세고 디폴트폰과 플레이어 컨트롤러를 설정함
 {
 	TargetTower = GetTargetTowerCount();
 	Tank = Cast <ATank>(UGameplayStatics::GetPlayerPawn(this, 0));
@@ -55,7 +55,7 @@ void AToonTanksGameMode::HandleGameStart()
 }
 
 
-int AToonTanksGameMode::GetTargetTowerCount()
+int AToonTanksGameMode::GetTargetTowerCount()	//레벨의 타워 수를 셈
 {
 	TArray<AActor*> Towers;
 	UGameplayStatics::GetAllActorsOfClass(this, ATower::StaticClass(), Towers);

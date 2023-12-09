@@ -25,10 +25,10 @@ protected:
 private:
 	class ATank* Tank;
 	UPROPERTY(EditDefaultsOnly, Category = "Combat")
-	float FireRange = 1500.f;
+	float FireRange = 1500.f;		//공격 범위
 
 	FTimerHandle FireRateTimerHandle;
-	float FireRate = 1.f;
+	float FireRate = 1.f;		//공격간의 딜레이
 	void CheckFireCondition();
 	bool InFireRange();
 };
